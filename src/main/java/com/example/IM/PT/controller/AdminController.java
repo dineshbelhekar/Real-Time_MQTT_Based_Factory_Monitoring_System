@@ -41,17 +41,17 @@ public class AdminController {
     }
 
     @GetMapping("/plantData")
-    public PlantData getPlantData() throws Exception {
+    public PlantData getPlantData()  {
         return dataAccessService.getAllPlantData();
     }
 
     @GetMapping("/departmentData")
-    public List<DepartmentData> getDepartmentData() throws Exception {
+    public List<DepartmentData> getDepartmentData()  {
        return dataAccessService.getAllDepartmentData();
     }
 
     @GetMapping("/machineData")
-    public List<MachineData> getMachineData() throws Exception {
+    public List<MachineData> getMachineData()  {
         return dataAccessService.getAllMachineData();
     }
 

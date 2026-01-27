@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/user").permitAll()
+                        .requestMatchers("/user").hasRole("ADMIN")
                         .requestMatchers("/plant/**").hasRole("ADMIN")
                         .requestMatchers("/department/**").hasAnyRole("ADMIN", "DEPTMANAGER")
                         .requestMatchers("/machine/**").hasAnyRole("ADMIN", "DEPTMANAGER", "OPERATOR")

@@ -28,56 +28,62 @@ public class DataAccessService {
     @Autowired
     private PlantDataRepository plantDataRepository;
 
+    @Autowired
+    private UserService userService;
 
-    public PlantData getAllPlantData() throws Exception
+
+    public PlantData getAllPlantData()
     {
         try {
 
             return plantDataRepository.findTopByOrderByTimeStampDesc();
 
         } catch (DataAccessException e) {
-            log.error("Failed to fetch department data ",e);
-            throw new Exception("Unable to load department data ",e);
+            log.error("Failed to fetch Plant data ",e);
+            return null;
         }
+
     }
 
-    public List<DepartmentData> getAllDepartmentData() throws Exception {
+    public List<DepartmentData> getAllDepartmentData() {
         try {
             return departmentDataRepository.findAll();
         } catch (DataAccessException e) {
             log.error("Failed to fetch department data ", e);
-            throw new Exception("Unable to load department data ",e);
+            return null;
         }
     }
 
-    public List<MachineData> getAllMachineData() throws Exception {
+    public List<MachineData> getAllMachineData()  {
 
         try {
             return machineDataRepository.findAll();
         } catch (DataAccessException e) {
             log.error("Failed to fetch Machine data ", e);
-            throw new Exception("Unable to load Machine data ", e);
+            return null;
         }
 
     }
 
 
 
-    public DepartmentData getDepartmentData(String Department) throws Exception {
+    public DepartmentData getDepartmentData() {
         try {
+            String Department = userService.getUserDepartment();
             return departmentDataRepository.findTopByDepartmentOrderByTimeStampDesc(Department);
         } catch (DataAccessException e) {
             log.error("Failed to fetch department data ", e);
-            throw new Exception("Unable to load department data ",e);
+            return null;
         }
     }
 
-    public List<MachineData> getDeptMachineData(String Department) throws Exception {
+    public List<MachineData> getDeptMachineData()  {
         try {
+            String Department = userService.getUserDepartment();
             return machineDataRepository.findByDepartmentOrderByTimeStampDesc(Department);
         } catch (DataAccessException e) {
             log.error("Failed to fetch Machine data ", e);
-            throw new Exception("Unable to load Machine data ", e);
+            return null;
         }
     }
 

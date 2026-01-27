@@ -4,13 +4,10 @@ package com.example.IM.PT.controller;
 import com.example.IM.PT.DataCache.MqttSubscriber;
 import com.example.IM.PT.Entity.DepartmentData;
 import com.example.IM.PT.Entity.MachineData;
-import com.example.IM.PT.Entity.User;
 import com.example.IM.PT.MQTTResponce.MachineResponse;
 import com.example.IM.PT.service.DataAccessService;
 import com.example.IM.PT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,14 +40,12 @@ public class DeptManagerController {
     }
 
     @GetMapping("/departmentData")
-    public DepartmentData getDepartmentData() throws Exception {
-        String Department = userService.getUserDepartment();
-        return dataAccessService.getDepartmentData(Department);
+    public DepartmentData getDepartmentData()  {
+        return dataAccessService.getDepartmentData();
     }
 
     @GetMapping("/machineData")
-    public List<MachineData> getMachineData() throws Exception {
-        String Department = userService.getUserDepartment();
-        return dataAccessService.getDeptMachineData(Department);
+    public List<MachineData> getMachineData() {
+        return dataAccessService.getDeptMachineData();
     }
 }

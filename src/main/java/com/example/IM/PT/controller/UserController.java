@@ -19,33 +19,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MqttSubscriber mqttSubscriber;
-
-    private DataSavingScheduler dataSavingScheduler;
 
 
-
-
-//    @GetMapping
-//    public List<User> getAllUsers()
-//    {
-//        return userService.getAllUsers();
-//    }
-
-    @GetMapping//("/livedata")
-    public Map<String, MachineResponse> livedata()
+    @GetMapping
+    public List<User> getAllUsers()
     {
-
-        return mqttSubscriber.getLiveData();
-
+        return userService.getAllUsers();
     }
+
 
     @PostMapping
     public User createUser(@RequestBody User user)
     {
         userService.saveNewUser(user);
         return user;
+    }
+
+    @DeleteMapping("/{Employeeid}")
+    public void deleteUser(@PathVariable String Employeeid)
+    {
+        userService.deleteUser(Employeeid);
     }
 
 }

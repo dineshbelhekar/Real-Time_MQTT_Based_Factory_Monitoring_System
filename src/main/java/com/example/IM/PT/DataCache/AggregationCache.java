@@ -2,8 +2,6 @@ package com.example.IM.PT.DataCache;
 
 import com.example.IM.PT.MQTTResponce.MachineResponse;
 import com.example.IM.PT.aggregation.MachineAggregation;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

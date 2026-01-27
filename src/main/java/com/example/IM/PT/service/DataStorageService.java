@@ -36,7 +36,6 @@ public class DataStorageService {
             machineRepo.save(machineData);
         } catch (Exception e) {
             log.error("Machine Data is not Saved");
-            throw new RuntimeException(e);
         }
     }
 
@@ -46,7 +45,6 @@ public class DataStorageService {
             deptRepo.save(departmentData);
         } catch (Exception e) {
             log.error("Department Data is not Saved");
-            throw new RuntimeException(e);
         }
     }
     public void saveplantData(PlantData plantData)
@@ -56,7 +54,6 @@ public class DataStorageService {
             plantRepo.save(plantData);
         } catch (Exception e) {
             log.error("Plant Data is not Saved");
-            throw new RuntimeException(e);
         }
     }
 

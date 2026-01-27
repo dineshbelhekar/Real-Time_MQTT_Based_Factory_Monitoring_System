@@ -18,7 +18,9 @@ import java.time.LocalDateTime;
 public class MachineData  {
 
     @Id
-    @Column(unique = true,nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String machineId;
 
     private String department;

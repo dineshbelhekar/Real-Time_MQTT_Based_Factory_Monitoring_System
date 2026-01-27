@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public void saveNewUser(User user)
     {
         try {
@@ -61,5 +63,15 @@ public class UserService {
     public List<User> getAllUsers()
     {
          return userRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteUser(String Employeeid) {
+        try {
+            userRepository.deleteByemployeeId(Employeeid);
+        } catch (Exception e) {
+            log.error("error occured while deleting user ... User not deleted",e);
+        }
+
     }
 }

@@ -30,7 +30,7 @@ public class DataSavingScheduler {
 
         }
 
-        @Scheduled(cron = "0 */3 * * * *") // every 30 minutes
+        @Scheduled(cron = "0 0/30 * * * ?") // every 30 minutes
         public void saveAggregatedData() {
 
             LocalDateTime windowEnd = LocalDateTime.now();
@@ -51,7 +51,7 @@ public class DataSavingScheduler {
 
                 // ---- Machine level save ----
                 dataStorageService.saveMachineData(new MachineData(
-                         machineId ,dept,production,power,windowEnd
+                         null,machineId ,dept,production,power,windowEnd
                 ));
 
 
@@ -67,6 +67,7 @@ public class DataSavingScheduler {
 
             for (String dept : deptPower.keySet()) {
                 dataStorageService.saveDapartmentData(new DepartmentData(
+                        null,
                         dept,
                         deptPower.get(dept),
                         deptProduction.get(dept),
