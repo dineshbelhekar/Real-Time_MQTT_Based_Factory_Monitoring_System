@@ -102,7 +102,7 @@ security/          → Authentication & authorization
 
 1️⃣ Clone the repo
 
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/dineshbelhekar/IM-PT
 
 2️⃣ Configure application.properties
 
