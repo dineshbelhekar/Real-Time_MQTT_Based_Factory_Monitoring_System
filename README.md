@@ -43,7 +43,7 @@ It is designed for department-based access control, where users can only view da
 - Backend: Spring Boot
 - Security: Spring Security
 - Messaging: MQTT
-- Database: (MySQL / PostgreSQL / your DB)
+- Database: MySQL
 - Build Tool: Maven
 - Language: Java
 
