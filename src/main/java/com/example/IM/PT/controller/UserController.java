@@ -21,11 +21,11 @@ public class UserController {
 
 
 
-//    @GetMapping
-//    public List<User> getAllUsers()
-//    {
-//        return userService.getAllUsers();
-//    }
+    @GetMapping
+    public List<User> getAllUsers()
+    {
+        return userService.getAllUsers();
+    }
 
 
     @PostMapping
