@@ -1,61 +1,46 @@
 package com.example.IM.PT.controller;
 
-import com.example.IM.PT.DataCache.MqttSubscriber;
-import com.example.IM.PT.Entity.DepartmentData;
-import com.example.IM.PT.Entity.MachineData;
-import com.example.IM.PT.Entity.PlantData;
 import com.example.IM.PT.Entity.User;
-import com.example.IM.PT.MQTTResponce.MachineResponse;
-import com.example.IM.PT.service.DataAccessService;
 import com.example.IM.PT.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/plant")
+@Slf4j
+@RequestMapping("/admin/employee")
 public class AdminController {
-
-    @Autowired
-    private MqttSubscriber mqttSubscriber;
-
-    @Autowired
-    private DataAccessService dataAccessService;
 
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public User createUser(@RequestBody User user)
-    {
+
+    @PostMapping("/add")
+    public User createUser(@RequestBody User user) {
         userService.saveNewUser(user);
         return user;
     }
 
-    @GetMapping("/getLiveData")
-    public Map<String, MachineResponse> getLiveData()
-    {
-        return mqttSubscriber.getLiveData();
-    }
+    @GetMapping("/getall")
+    public List<User> getAllUsers() {
 
-    @GetMapping("/plantData")
-    public PlantData getPlantData()  {
-        return dataAccessService.getAllPlantData();
-    }
-
-    @GetMapping("/departmentData")
-    public List<DepartmentData> getDepartmentData()  {
-       return dataAccessService.getAllDepartmentData();
-    }
-
-    @GetMapping("/machineData")
-    public List<MachineData> getMachineData()  {
-        return dataAccessService.getAllMachineData();
+        return userService.getAllUsers();
     }
 
 
+    @DeleteMapping("/delete/{Employeeid}")
+    public void deleteUser(@PathVariable String Employeeid) {
+        userService.deleteUser(Employeeid);
+    }
 
+    @GetMapping("/getbyid/{employeeId}")
+    public ResponseEntity<User> getByEmployeeID(@PathVariable String employeeId) {
+
+        return ResponseEntity.ok(
+                userService.getByEmployeeID(employeeId));
+    }
 
 }
