@@ -4,6 +4,7 @@ package com.example.IM.PT.controller;
 import com.example.IM.PT.DataCache.MqttSubscriber;
 import com.example.IM.PT.Entity.DepartmentData;
 import com.example.IM.PT.Entity.MachineData;
+import com.example.IM.PT.Entity.User;
 import com.example.IM.PT.MQTTResponce.MachineResponse;
 import com.example.IM.PT.service.DataAccessService;
 import com.example.IM.PT.service.UserService;
@@ -28,10 +29,14 @@ public class DeptManagerController {
     @Autowired
     private MqttSubscriber mqttSubscriber;
 
+    @GetMapping("/getallemployee")
+    public List<User> getAllUsers() {
+        String Department = userService.getUserDepartment();
+        return userService.getEmployeesOfDept(Department);
+    }
 
     @GetMapping("/getLiveData")
-    public List<MachineResponse> getLiveData()
-    {
+    public List<MachineResponse> getLiveData() {
        String Department = userService.getUserDepartment();
         return mqttSubscriber.getLiveData().values().stream()
                 .filter(m -> Department.equals(m.getDepartment()))
@@ -48,4 +53,7 @@ public class DeptManagerController {
     public List<MachineData> getMachineData() {
         return dataAccessService.getDeptMachineData();
     }
+
+
+
 }
