@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -55,6 +56,7 @@ public class UserService {
     public String getUserDepartment()
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assert authentication != null;
         String username = authentication.getName();
         User user  = findByUsername(username);
         return user.getDepartment();
@@ -66,12 +68,24 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(String Employeeid) {
+    public void deleteUser(String employeeId) {
         try {
-            userRepository.deleteByemployeeId(Employeeid);
+            userRepository.deleteByemployeeId(employeeId);
         } catch (Exception e) {
             log.error("error occured while deleting user ... User not deleted",e);
         }
 
+    }
+
+    public User getByEmployeeID(String employeeId) {
+        Optional<User> user = userRepository.findByEmployeeId(employeeId);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new RuntimeException("Employee not found");
+    }
+
+    public List<User> getEmployeesOfDept(String department) {
+        return userRepository.findByDepartment(department);
     }
 }
