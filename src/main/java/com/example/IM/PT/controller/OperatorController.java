@@ -21,8 +21,7 @@ public class OperatorController {
     private MqttSubscriber mqttSubscriber;
 
     @GetMapping("/getLiveData")
-    public List<MachineResponse> getLiveData()
-    {
+    public List<MachineResponse> getLiveData() {
         String Department = userService.getUserDepartment();
         return mqttSubscriber.getLiveData().values().stream()
                 .filter(m -> Department.equals(m.getDepartment()))
