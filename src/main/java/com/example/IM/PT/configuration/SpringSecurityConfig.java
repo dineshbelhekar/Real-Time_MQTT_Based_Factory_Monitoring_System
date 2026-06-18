@@ -17,8 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -38,40 +38,37 @@ public class SpringSecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.authorizeHttpRequests(request -> request
-                       // .requestMatchers("/user").hasRole("ADMIN")
-                        .requestMatchers("/plant/**").hasRole("ADMIN")
-                        .requestMatchers("/department/**").hasAnyRole("ADMIN", "DEPTMANAGER")
-                        .requestMatchers("/machine/**").hasAnyRole("ADMIN", "DEPTMANAGER", "OPERATOR")
-                        .anyRequest().permitAll())
+                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/admin/employee/**").hasRole("ADMIN")
+                        .requestMatchers("/plant/**").hasRole("PLANTMANAGER")
+                        .requestMatchers("/department/**").hasAnyRole("PLANTMANAGER", "DEPTMANAGER")
+                        .requestMatchers("/machine/**").hasAnyRole("PLANTMANAGER", "DEPTMANAGER", "OPERATOR")
+                        .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
-    @Configuration
-    public class CorsConfig {
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedHeaders(List.of(
+                "Authorization",
+                "Content-Type",
+                "Accept",
+                "Origin",
+                "X-Requested-With"
+        ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setMaxAge(3600L);
 
-        @Bean
-        public CorsFilter corsFilter() {
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowCredentials(true);
-            config.setAllowedOrigins(List.of("http://localhost:5173"));
-            config.setAllowedHeaders(List.of(
-                    "Authorization",
-                    "Content-Type",
-                    "Accept",
-                    "Origin",
-                    "X-Requested-With"
-            ));
-            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            config.setMaxAge(3600L); // cache preflight for 1 hour
-
-            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-            source.registerCorsConfiguration("/**", config);
-
-            return new CorsFilter(source);
-        }
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Autowired
