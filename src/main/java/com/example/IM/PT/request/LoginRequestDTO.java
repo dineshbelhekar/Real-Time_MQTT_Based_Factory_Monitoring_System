@@ -16,6 +16,6 @@ public class LoginRequestDTO {
     private String password;
 
     @NotNull
-    private String employeeID;
+    private String employeeId;
 
 }
