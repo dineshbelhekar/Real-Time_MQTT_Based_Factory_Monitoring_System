@@ -38,7 +38,7 @@ public class SpringSecurityConfig {
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/user/**","/ws/**").permitAll()
                         .requestMatchers("/admin/employee/**").hasRole("ADMIN")
                         .requestMatchers("/plant/**").hasRole("PLANTMANAGER")
                         .requestMatchers("/department/**").hasAnyRole("PLANTMANAGER", "DEPTMANAGER")
@@ -67,8 +67,8 @@ public class SpringSecurityConfig {
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        source.registerCorsConfiguration("/ws/**", config);
+        source.registerCorsConfiguration("/**",config);
+        source.registerCorsConfiguration("/ws", config);
         return source;
     }
 
@@ -89,5 +89,7 @@ public class SpringSecurityConfig {
 
 
     }
+
+
 
 }
