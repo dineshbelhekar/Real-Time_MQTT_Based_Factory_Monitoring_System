@@ -1,6 +1,6 @@
 package com.example.IM.PT.DataCache;
 
-import com.example.IM.PT.Responce.UserSessionInfo;
+import com.example.IM.PT.DTO.UserSessionInfo;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
