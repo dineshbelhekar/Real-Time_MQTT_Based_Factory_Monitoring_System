@@ -88,4 +88,20 @@ public class UserService {
     public List<User> getEmployeesOfDept(String department) {
         return userRepository.findByDepartment(department);
     }
+
+    public void updateUser(User user) {
+        try {
+            User dbUser = findByUsername(user.getUsername());
+            if (dbUser == null){
+                throw new RuntimeException("user not found for username  !!!");
+            }
+            dbUser.setEmployeeId(user.getEmployeeId());
+            dbUser.setEmailId(user.getEmailId());
+            dbUser.setDesignation(user.getDesignation());
+            dbUser.setDepartment(user.getDepartment());
+            userRepository.save(dbUser);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
