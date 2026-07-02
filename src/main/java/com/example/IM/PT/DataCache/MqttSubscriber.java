@@ -1,13 +1,12 @@
 package com.example.IM.PT.DataCache;
 
 import com.example.IM.PT.MQTTResponce.MachineResponse;
-import jakarta.annotation.PostConstruct;
+import com.example.IM.PT.service.MaintenanceAlertService;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
@@ -16,9 +15,11 @@ public class MqttSubscriber {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final AggregationCache aggregationCache;
+    private final MaintenanceAlertService maintenanceAlertService;
 
-    public MqttSubscriber(AggregationCache aggregationCache) {
+    public MqttSubscriber(AggregationCache aggregationCache, MaintenanceAlertService maintenanceAlertService) {
         this.aggregationCache = aggregationCache;
+        this.maintenanceAlertService = maintenanceAlertService;
     }
 
     //private MachineResponse data;
@@ -38,10 +39,17 @@ public class MqttSubscriber {
             MachineResponse data =
                     objectMapper.readValue(payload, MachineResponse.class);
 
-
-
             data.setDepartment(department);
             data.setMachineId(machineId);
+
+            if (!data.getCondition()) {
+
+                maintenanceAlertService.handleMachineFailure(data);
+
+            } else {
+
+                maintenanceAlertService.handleMachineRecovery(data);
+            }
 
             liveData.put(machineId, data);
             aggregationCache.aggregate(data);
