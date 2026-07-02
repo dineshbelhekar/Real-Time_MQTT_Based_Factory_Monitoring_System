@@ -15,6 +15,9 @@ public class ConnectedUsersStore {
     private final ConcurrentHashMap<String, UserSessionInfo> userData =
             new ConcurrentHashMap<>();
 
+    private final ConcurrentHashMap<String, Boolean> technicianStatus =
+            new ConcurrentHashMap<>();
+
     public void add(String sessionId, UserSessionInfo info) {
 
         sessionToUser.put(sessionId, info.getUsername());
