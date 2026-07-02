@@ -37,4 +37,34 @@ public class ConnectedUsersStore {
     public Collection<UserSessionInfo> getAllUsers() {
         return userData.values();
     }
+
+    public void addTechnician(String username, String sessionId){
+        sessionToUser.put(sessionId,username);
+        technicianStatus.put(username,true);
+    }
+
+    public void removeTechnicianBySession(String sessionId){
+
+        String username = sessionToUser.remove(sessionId);
+
+        if (username != null) {
+            technicianStatus.remove(username);
+        }
+    }
+
+    public ConcurrentHashMap<String, Boolean> getAllTechnicians(){
+        return technicianStatus;
+    }
+
+    public ConcurrentHashMap<String, String> getsessiontouser(){
+        return sessionToUser;
+    }
+
+    public void setTechnicianStatus(String username){
+        technicianStatus.put(username,false);
+    }
+
+    public void resetTechnicianStatus(String username){
+        technicianStatus.put(username,true);
+    }
 }
