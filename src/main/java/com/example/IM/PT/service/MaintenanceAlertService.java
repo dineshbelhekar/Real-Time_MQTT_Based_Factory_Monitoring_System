@@ -40,11 +40,9 @@ public class MaintenanceAlertService {
     }
 
     public void handleMachineFailure(MachineResponse machine) {
-
         if (machineStateStore.isAlertAssigned(machine.getMachineId())) {
             return;
         }
-
         MaintenanceAlertDTO alert = new MaintenanceAlertDTO();
 
         alert.setMachineId(machine.getMachineId());
@@ -76,11 +74,9 @@ public class MaintenanceAlertService {
 
 
     public void handleMachineRecovery(MachineResponse machine) {
-
         if (!machineStateStore.isAlertAssigned(machine.getMachineId())) {
             return;
         }
-
         machineStateStore.clearAlert(machine.getMachineId());
         MaintenanceAlert maintenanceAlert = getAlertData(machine.getMachineId());
         if (maintenanceAlert != null){
@@ -109,15 +105,15 @@ public class MaintenanceAlertService {
             MaintenanceAlert alert = getAlertData(machineId);
             if (alert.getMaintenanceStatus().equals(MaintenanceStatus.STARTED) ||
                     alert.getMaintenanceStatus().equals(MaintenanceStatus.DONE) ){
-                return "Maintenance is  Already Assigned to " + alert.getTechnician();
+                throw new RuntimeException("Maintenance is already assigned ");
             }
+            machineStateStore.setStatus(machineId,MachineAlertStatus.ASSIGNED);
             alert.setMaintenanceStatus(MaintenanceStatus.STARTED);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             alert.setTechnician(username);
             repository.save(alert);
             connectedUsersStore.setTechnicianStatus(username);
-            machineStateStore.setStatus(machineId,MachineAlertStatus.ASSIGNED);
             return "Maintainance is Assigned to "+ username;
     }
 
