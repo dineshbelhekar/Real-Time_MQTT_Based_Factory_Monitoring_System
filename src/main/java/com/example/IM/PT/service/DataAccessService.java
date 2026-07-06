@@ -32,8 +32,7 @@ public class DataAccessService {
     private UserService userService;
 
 
-    public PlantData getAllPlantData()
-    {
+    public PlantData getAllPlantData() {
         try {
 
             return plantDataRepository.findTopByOrderByTimeStampDesc();
@@ -64,8 +63,6 @@ public class DataAccessService {
         }
 
     }
-
-
 
     public DepartmentData getDepartmentData() {
         try {
