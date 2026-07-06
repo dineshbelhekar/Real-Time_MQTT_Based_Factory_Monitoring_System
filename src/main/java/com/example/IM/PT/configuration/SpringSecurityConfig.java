@@ -44,7 +44,6 @@ public class SpringSecurityConfig {
                         .requestMatchers("/department/**").hasAnyRole("PLANTMANAGER", "DEPTMANAGER")
                         .requestMatchers("/machine/**").hasAnyRole("PLANTMANAGER", "DEPTMANAGER", "OPERATOR")
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -55,7 +54,7 @@ public class SpringSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("https://amcecorp.up.railway.app/"));
+        config.setAllowedOrigins(List.of("https://amcecorp.up.railway.app/**"));
         config.setAllowedHeaders(List.of(
                 "Authorization",
                 "Content-Type",
