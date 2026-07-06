@@ -37,8 +37,7 @@ public class PlantManagerController {
     }
 
     @GetMapping("/getLiveData")
-    public Map<String, MachineResponse> getLiveData()
-    {
+    public Map<String, MachineResponse> getLiveData() {
         log.info("live data accessd by plant manager");
         return mqttSubscriber.getLiveData();
     }
