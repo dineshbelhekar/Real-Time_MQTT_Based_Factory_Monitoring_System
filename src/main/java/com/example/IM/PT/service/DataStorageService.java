@@ -29,9 +29,7 @@ public class DataStorageService {
         this.plantRepo = plantRepo;
     }
 
-
-    public void saveMachineData(MachineData machineData)
-    {
+    public void saveMachineData(MachineData machineData) {
         try {
             machineRepo.save(machineData);
         } catch (Exception e) {
@@ -39,14 +37,14 @@ public class DataStorageService {
         }
     }
 
-    public void saveDapartmentData(DepartmentData departmentData)
-    {
+    public void saveDapartmentData(DepartmentData departmentData) {
         try {
             deptRepo.save(departmentData);
         } catch (Exception e) {
             log.error("Department Data is not Saved");
         }
     }
+
     public void saveplantData(PlantData plantData)
     {
 
