@@ -1,6 +1,6 @@
 package com.example.IM.PT.controller;
 
-import com.example.IM.PT.request.LoginRequestDTO;
+import com.example.IM.PT.DTO.LoginRequestDTO;
 import com.example.IM.PT.service.UserDetailsServiceIMPL;
 import com.example.IM.PT.service.UserService;
 import com.example.IM.PT.util.JWTutil;
