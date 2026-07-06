@@ -1,4 +1,4 @@
-package com.example.IM.PT.Responce;
+package com.example.IM.PT.DTO;
 
 import lombok.Getter;
 import lombok.Setter;
