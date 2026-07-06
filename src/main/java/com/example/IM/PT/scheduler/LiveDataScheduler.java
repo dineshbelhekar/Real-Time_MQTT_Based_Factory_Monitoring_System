@@ -3,7 +3,7 @@ package com.example.IM.PT.scheduler;
 import com.example.IM.PT.DataCache.ConnectedUsersStore;
 import com.example.IM.PT.DataCache.MqttSubscriber;
 import com.example.IM.PT.Entity.MachineData;
-import com.example.IM.PT.Responce.MachineResponse;
+import com.example.IM.PT.MQTTResponce.MachineResponse;
 import com.example.IM.PT.Responce.UserSessionInfo;
 import com.example.IM.PT.service.UserService;
 import lombok.RequiredArgsConstructor;
