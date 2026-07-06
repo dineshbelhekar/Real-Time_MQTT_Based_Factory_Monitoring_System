@@ -1,8 +1,8 @@
-package com.example.IM.PT.request;
+package com.example.IM.PT.eventListener;
 
 import com.example.IM.PT.DataCache.ConnectedUsersStore;
 import com.example.IM.PT.Entity.User;
-import com.example.IM.PT.Responce.UserSessionInfo;
+import com.example.IM.PT.DTO.UserSessionInfo;
 import com.example.IM.PT.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -37,18 +37,22 @@ public class WebSocketEventListener {
 
         User user = userRepository.findByUsername(username);
 
-        String[] parts = user.getEmployeeId().split("-");
+        if(user.getDepartment().equals("Maintenance")){
+            store.addTechnician(username,accessor.getSessionId());
+        } else {
+            String[] parts = user.getEmployeeId().split("-");
 
-        UserSessionInfo info =  new UserSessionInfo(
-                user.getEmployeeId(),
-                user.getUsername(),
-                parts[0],
-                Integer.parseInt(parts[1]),
-                Integer.parseInt(parts[2]),
-                accessor.getSessionId()
-        );
+            UserSessionInfo info = new UserSessionInfo(
+                    user.getEmployeeId(),
+                    user.getUsername(),
+                    parts[0],
+                    Integer.parseInt(parts[1]),
+                    Integer.parseInt(parts[2]),
+                    accessor.getSessionId()
+            );
 
-        store.add(accessor.getSessionId(), info);
+            store.add(accessor.getSessionId(), info);
+        }
 
     }
 
@@ -57,8 +61,7 @@ public class WebSocketEventListener {
 
         String sessionId = event.getSessionId();
 
-        store.getAllUsers().removeIf(
-                user -> sessionId.equals(user.getSessionId())
-        );
+        store.removeTechnicianBySession(sessionId);
+        store.removeBySession(sessionId);
     }
 }
