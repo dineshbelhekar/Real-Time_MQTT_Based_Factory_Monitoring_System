@@ -23,8 +23,7 @@ public class RedisService {
     // Machine Alert Status
 
     @Transactional
-    public void saveMachineStatus(String machineId,
-                                  MachineAlertStatus status) {
+    public void saveMachineStatus(String machineId, MachineAlertStatus status) {
 
         redisTemplate.opsForHash()
                 .put(ALERT_KEY, machineId, status);
@@ -69,8 +68,7 @@ public class RedisService {
 
     // Technician Status
 
-    public void saveTechnicianStatus(String username,
-                                     Boolean status) {
+    public void saveTechnicianStatus(String username, Boolean status) {
 
         redisTemplate.opsForHash()
                 .put(TECHNICIAN_KEY, username, status);
