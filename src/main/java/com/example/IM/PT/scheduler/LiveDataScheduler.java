@@ -2,9 +2,8 @@ package com.example.IM.PT.scheduler;
 
 import com.example.IM.PT.DataCache.ConnectedUsersStore;
 import com.example.IM.PT.DataCache.MqttSubscriber;
-import com.example.IM.PT.Entity.MachineData;
-import com.example.IM.PT.Responce.MachineResponse;
-import com.example.IM.PT.Responce.UserSessionInfo;
+import com.example.IM.PT.MQTTResponce.MachineResponse;
+import com.example.IM.PT.DTO.UserSessionInfo;
 import com.example.IM.PT.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
