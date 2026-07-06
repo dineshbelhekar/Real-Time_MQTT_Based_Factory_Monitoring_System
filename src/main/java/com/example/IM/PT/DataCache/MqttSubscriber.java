@@ -43,11 +43,9 @@ public class MqttSubscriber {
             data.setMachineId(machineId);
 
             if (!data.getCondition()) {
-
                 maintenanceAlertService.handleMachineFailure(data);
 
             } else {
-
                 maintenanceAlertService.handleMachineRecovery(data);
             }
 
