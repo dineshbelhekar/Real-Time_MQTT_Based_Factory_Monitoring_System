@@ -72,7 +72,6 @@ public class MaintenanceAlertService {
 
     }
 
-
     public void handleMachineRecovery(MachineResponse machine) {
         if (!machineStateStore.isAlertAssigned(machine.getMachineId())) {
             return;
@@ -98,7 +97,6 @@ public class MaintenanceAlertService {
             return null;
         }
     }
-
 
     @Transactional
     public String assignMaintenance(String machineId) {
