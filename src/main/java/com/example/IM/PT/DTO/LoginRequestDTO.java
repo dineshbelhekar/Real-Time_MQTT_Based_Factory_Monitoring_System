@@ -1,6 +1,5 @@
-package com.example.IM.PT.request;
+package com.example.IM.PT.DTO;
 
-import com.example.IM.PT.Entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
