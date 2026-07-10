@@ -35,6 +35,7 @@ This system:
 - A STOMP-over-WebSocket endpoint (`/ws`) pushes live machine data to each connected user every 2 seconds.
 - Updates are scoped server-side: a manager with plant-wide access (department `"A"`) receives everything, while other users only receive data for their department and their assigned machine ID range.
 - WebSocket connections are authenticated via a custom STOMP `CONNECT`-frame interceptor that validates a JWT before allowing a session.
+- The same REST endpoints used for historical data (e.g. `getLiveData`) double as a **fallback data source**: the companion frontend switches to REST polling automatically if the WebSocket connection can't be established, so live views degrade gracefully instead of going blank. See [Frontend](#-frontend) below.
 
 ### 🛠️ Automated Maintenance Alerting
 - When a machine reports an unhealthy `condition` flag, the system automatically raises a maintenance alert (once per failure — no duplicate alerts) and pushes a notification to every currently-available maintenance technician over WebSocket.
@@ -231,7 +232,6 @@ spring.mail.port=<smtp-port>
 spring.mail.username=<smtp-username>
 spring.mail.password=<smtp-password>
 ```
-> ⚠️ Do not commit real credentials. Use environment variables or a secrets manager in production, and externalize the JWT signing key rather than hardcoding it.
 
 **3. Run the application**
 ```bash
@@ -250,11 +250,21 @@ spring.mail.password=<smtp-password>
 
 ---
 
+## 🖥️ Frontend
+
+A companion React dashboard consumes this backend's REST and WebSocket APIs end-to-end:
+👉 **[Real_time_factory_monitoring_Frontend](https://github.com/dineshbelhekar/Real_time_factory_monitoring_Frontend)**
+
+Highlights:
+- Built with **React 19 + Vite**, using **SockJS/STOMP** for the live data channel and role-specific dashboards for Admin, Plant Manager, Department Manager, Operator, and Maintenance.
+- The JWT issued by `/user/login` is passed in the STOMP `CONNECT` header to authenticate the WebSocket session, and reused for all subsequent REST calls.
+- **Resilient live-data strategy:** each dashboard first tries the WebSocket channel; if the connection fails to establish or drops repeatedly (3 failed attempts), it automatically **falls back to REST polling** (every 30 seconds) and shows a "REST fallback" status indicator, then transparently switches back to WebSocket once the connection recovers — keeping the dashboard usable even under flaky WebSocket connectivity, without any user action.
+
+---
+
 ## 📈 Future Improvements
 
-- Frontend dashboard (React/Angular) consuming the REST + WebSocket APIs
 - Move the MQTT broker to a private/self-hosted instance (public HiveMQ broker is for testing only)
-- Externalize the JWT secret and other credentials via environment variables / a secrets manager
 - Containerize with Docker and add CI/CD
 - Add refresh tokens and token revocation
 - Add integration tests around the MQTT ingestion → alerting pipeline
